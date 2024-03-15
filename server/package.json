@@ -20,8 +20,10 @@
   "version": "1.0.0",
   "description": "A Real Time Chat App for connecting with your friends and family.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "dev":"nodemon app.js"
   },
   "author": "Mukund Acharya",
   "license": "ISC"
