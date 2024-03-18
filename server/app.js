@@ -3,6 +3,7 @@ import userRoute from "./routes/user.js";
 import dotenv from "dotenv";
 import { connectDB } from "./utils/features.js";
 import { errorMiddleware } from "./middlewares/error.js";
+import cookieParser from "cookie-parser";
 
 dotenv.config({
     path: "./.env"
@@ -16,7 +17,7 @@ const app = express();
 
 //using Middlewares here
 app.use(express.json());
-app.use(errorMiddleware);
+app.use(cookieParser());
 
 // Routes here
 app.use("/user",userRoute);
@@ -24,6 +25,8 @@ app.use("/user",userRoute);
 app.get('/',(req,res) => {
     res.send("Home");
 });
+
+app.use(errorMiddleware);
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

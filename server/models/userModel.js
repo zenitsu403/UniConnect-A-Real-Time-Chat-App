@@ -16,6 +16,9 @@ const userSchema = new Schema({
         required: true,
         select: false
     },
+    bio: {
+        type: String
+    },
     avatar: {
         public_id: {
             type: String,

@@ -1,6 +1,6 @@
 import { compare } from "bcrypt";
 import { User } from "../models/userModel.js"
-import { sendToken } from "../utils/features.js";
+import { sendToken,cookieOptions } from "../utils/features.js";
 import { TryCatch } from "../middlewares/error.js";
 import { ErrorHandler } from "../utils/utility.js";
 
@@ -34,6 +34,23 @@ const login = TryCatch(async (req,res,next) => {
     sendToken(res,user,200,`Welcome Back, ${user.name}`);
 });
 
-const getProfile = async (req,res) => {};
+const getProfile = TryCatch(async (req,res) => {
+    const user = await User.findById(req.userId).select("-password");  // by default, select is like this only
 
-export {login, newUser, getProfile};
+    res.status(200).json({
+        success: true,
+        user
+    });
+});
+
+const logout = TryCatch(async (req,res) => {
+    return res
+        .status(200)
+        .cookie("uniconnect-token","",{...cookieOptions , maxAge: 0})
+        .json({
+        success: true,
+        message: "Logout Successfully"
+    });
+});
+
+export {login, logout, newUser, getProfile};
