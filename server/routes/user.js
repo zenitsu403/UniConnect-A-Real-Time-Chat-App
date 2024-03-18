@@ -1,5 +1,5 @@
 import express from "express";
-import { login, newUser } from "../controllers/login.js";
+import { login, newUser } from "../controllers/userController.js";
 import { singleAvatar } from "../middlewares/multer.js";
 
 const app = express.Router();
