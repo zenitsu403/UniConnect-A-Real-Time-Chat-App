@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import { connectDB } from "./utils/features.js";
 import { errorMiddleware } from "./middlewares/error.js";
 import cookieParser from "cookie-parser";
+import { createUser } from "./seeders/userSeed.js";
+
 
 import userRoute from "./routes/user.js";
 import chatRoute from "./routes/chat.js";
@@ -15,6 +17,9 @@ dotenv.config({
 const port = process.env.PORT || 3000;
 const mongoURI = process.env.MONGO_URI;
 connectDB(mongoURI);
+
+//Seeds for populating database
+//createUser(10);
 
 const app = express();
 
