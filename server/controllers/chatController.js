@@ -137,4 +137,41 @@ const addMembers = TryCatch(async (req,res,next) => {
 
 });
 
-export {newGroupChat, getMyChat, getMyGroups, addMembers};
+const removeMembers = TryCatch(async (req,res,next) => {
+    const {userId, chatId} = req.body;
+    const [chat,userToRemove] = await Promise.all([
+        Chat.findById(chatId),
+        User.findById(userId)
+    ]);
+
+    if(!chat) return next(new ErrorHandler("Chat Not Found",404));
+
+    if(!chat.groupChat) return next(new ErrorHandler("This is not a Group Chat",400));
+
+    if(chat.creator.toString() !== req.userId.toString())
+        return next(ErrorHandler("You are not allowed to add members",403));
+
+    if(members.length<=3){
+        return next(
+            new ErrorHandler("Group Chat must have atleast 3 members",400)
+        );
+    }
+
+    chat.members = chat.members.filter(
+        (member) => member.toString() !== userId.toString()
+    );
+
+    await chat.save();
+
+    emitEvent(
+        req,
+        ALERT,
+        chat.members,
+        `${userToRemove} has been removed from the group`
+    );
+
+    emitEvent(req,REFETCH_CHATS,chat.members);
+
+});
+
+export {newGroupChat, getMyChat, getMyGroups, addMembers, removeMembers};
