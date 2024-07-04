@@ -7,6 +7,7 @@ import { TryCatch } from "../middlewares/error.js";
 import { ErrorHandler } from "../utils/utility.js";
 import { NEW_REQUEST, REFETCH_CHATS } from "../constants/events.js";
 import { emitEvent } from "../utils/features.js";
+import { getOtherMember } from "../lib/helper.js";
 
 const newUser = TryCatch(async (req,res) => {
     const { name,username,password,bio } = req.body;
@@ -173,7 +174,37 @@ const getMyNotifications = TryCatch(async (req,res) => {
 
 const getMyFriends = TryCatch(async (req,res,next) => {
     
-    
+    const chatId = req.query.chatId;
+    const myChats = await Chat.find({
+        members: req.userId,
+        groupChat: false,
+    }).populate("members","name avatar");
+
+    const myFriends = myChats.map(({ members }) => {
+        const otherUser = getOtherMember(members,req.userId);
+        return{
+            _id: otherUser._id,
+            name: otherUser.name,
+            avatar: otherUser.avatar.url,
+        }
+    });
+
+    if(chatId){
+        const chat = await Chat.findById(chatId);
+        const availableFriends = myFriends.filter(
+            (friend) => !chat.members.includes(friend._id)
+        );
+        return res.status(200).json({
+            success: true,
+            friends: availableFriends,
+        });
+    }
+    else{
+        return res.status(200).json({
+            success: true,
+            myFriends,
+        });
+    }
 });
 
 export {login, logout, newUser, getProfile, searchUser, sendFriendRequest, acceptFriendRequest, getMyNotifications, getMyFriends };
