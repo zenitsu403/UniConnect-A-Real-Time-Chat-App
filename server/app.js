@@ -8,6 +8,7 @@ import { createUser } from "./seeders/userSeed.js";
 
 import userRoute from "./routes/user.js";
 import chatRoute from "./routes/chat.js";
+import adminRoute from "./routes/admin.js";
 
 
 dotenv.config({
@@ -30,6 +31,7 @@ app.use(cookieParser());
 // Routes here
 app.use("/user",userRoute);
 app.use("/chat",chatRoute);
+app.use("/admin",adminRoute);
 
 app.get('/',(req,res) => {
     res.send("Home");
