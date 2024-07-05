@@ -1,7 +1,42 @@
+import jwt from "jsonwebtoken";
 import { TryCatch } from "../middlewares/error.js"
 import { User } from "../models/userModel.js";
 import { Chat } from "../models/chatModel.js";
 import { Message } from "../models/messageModel.js";
+import { ErrorHandler } from "../utils/utility.js";
+import { cookieOptions } from "../utils/features.js";
+import { adminSecretKey } from "../app.js";
+
+const adminLogin = TryCatch(async (req,res,next) => {
+
+    const { secretKey } = req.body;
+
+    const isMatched = secretKey === adminSecretKey;
+
+    if(!isMatched) return next(new ErrorHandler("Invalid Admin Key",401));
+
+    const token = jwt.sign(secretKey,process.env.JWT_SECRET);
+
+    return res.status(200).cookie("uniconnect-admin-token",token,{...cookieOptions,maxAge: 15*60*1000,}).json({
+        success: true,
+        message: "Authenticated Successfully, Welcome back Admin!",
+    });
+});
+
+const adminLogout = TryCatch(async (req,res,next) => {
+
+    return res.status(200).cookie("uniconnect-admin-token","",{...cookieOptions,maxAge: 0,}).json({
+        success: true,
+        message: "Logged Out Successfully!",
+    });
+});
+
+const getAdminData = TryCatch(async (req,res,next) => {
+
+    return res.status(200).json({
+        admin: true,
+    });
+});
 
 const allUsers = TryCatch(async (req,res,next) => {
     const users = await User.find({});
@@ -138,4 +173,4 @@ const getDashboardStats = TryCatch(async (req,res,next) => {
     });
 });
 
-export { allUsers, allChats, allMessages, getDashboardStats };
+export { allUsers, allChats, allMessages, getDashboardStats, adminLogin, adminLogout, getAdminData };

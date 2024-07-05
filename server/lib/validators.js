@@ -17,7 +17,8 @@ const registerValidator = () => [
     body("username","Please enter username").notEmpty(),
     body("password","Please enter password").notEmpty(),
     body("bio","Please enter bio").notEmpty(),
-    check("avatar","Please upload avatar").notEmpty(),
+    //check("avatar","Please upload avatar").notEmpty(),
+    //check can't validate from req.files
 ];
 
 const loginValidator = () => [
@@ -46,9 +47,9 @@ const removeMemberValidator = () => [
 
 const sendAttachmentsValidator = () => [
     body("chatId","Please enter Chat ID").notEmpty(),
-    check("files")
-        .notEmpty().withMessage("Please upload Attachments")
-        .isArray({min: 1, max: 5}).withMessage("Attachments must be between 1-5"),
+    // check("files")
+    //     .notEmpty().withMessage("Please upload Attachments")
+    //     .isArray({min: 1, max: 5}).withMessage("Attachments must be between 1-5"),
 ];
 
 const chatIDValidator = () => [param("id","Please enter Chat ID").notEmpty()];
@@ -69,5 +70,9 @@ const acceptFriendRequestValidator = () => [
         .isBoolean().withMessage("Accept must be Boolean"),
 ];
 
-export { registerValidator, validationResultHandler, loginValidator, newGroupChatValidator, addMemberValidator, removeMemberValidator, sendAttachmentsValidator, chatIDValidator, renameGroupValidator, sendFriendRequestValidator, acceptFriendRequestValidator };
+const adminLoginValidator = () => [
+    body("secretKey","Please enter Secret Key").notEmpty(),
+];
+
+export { registerValidator, validationResultHandler, loginValidator, newGroupChatValidator, addMemberValidator, removeMemberValidator, sendAttachmentsValidator, chatIDValidator, renameGroupValidator, sendFriendRequestValidator, acceptFriendRequestValidator, adminLoginValidator };
 

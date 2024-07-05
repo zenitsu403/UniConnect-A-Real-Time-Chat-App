@@ -16,7 +16,10 @@ dotenv.config({
 });
 
 const port = process.env.PORT || 3000;
+const envMode = process.env.NODE_ENV.trim() || "PRODUCTION";
 const mongoURI = process.env.MONGO_URI;
+const adminSecretKey = process.env.ADMIN_SECRET_KEY || "mukund";
+
 connectDB(mongoURI);
 
 //Seeds for populating database
@@ -40,5 +43,7 @@ app.get('/',(req,res) => {
 app.use(errorMiddleware);
 
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+    console.log(`Server is running on port ${port} in ${envMode} MODE`);
 });
+
+export { envMode, adminSecretKey };
