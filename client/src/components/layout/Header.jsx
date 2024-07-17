@@ -55,12 +55,13 @@ const Header = () => {
             <AppBar position='static' sx={{bgcolor: headerColor}}>
                 <Toolbar>
                     <Typography
-                        variant='h6'
+                        variant='h5'
+                        color={"cyan"}
                         sx={{
-                            display: {xs: "none", sm: "block"}
+                            display: {xs: "none", sm: "block"},
                         }}
                     >
-                        UniCONNECT - A Real Time Chat App
+                        Uni-Connect - A Real Time Chat App
                     </Typography>
                     <Box
                         sx={{
