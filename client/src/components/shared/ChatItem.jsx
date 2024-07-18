@@ -11,7 +11,7 @@ const ChatItem = ({
     sameSender,
     isOnline,
     newMessageAlert,
-    index,
+    index=0,
     handleDeleteChat
 }) => {
   return (
@@ -30,7 +30,6 @@ const ChatItem = ({
                 color: sameSender ? "white" : "unset",
                 position: "relative",
         }}>
-            
             <AvatarCard avatar={avatar}/>
 
             <Stack>
