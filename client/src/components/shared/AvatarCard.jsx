@@ -9,7 +9,7 @@ const AvatarCard = ({avatar=[], max=4}) => {
                 {avatar.map((i,index) => (
                     <Avatar
                         key={Math.random() *100}
-                        srcSet={i}
+                        src={i}
                         alt={`Avatar ${index}`}
                         sx={{
                             width: "3rem",

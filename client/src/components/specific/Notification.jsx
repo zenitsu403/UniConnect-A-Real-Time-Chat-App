@@ -1,8 +1,11 @@
+import { Dialog } from '@mui/material'
 import React from 'react'
 
 function Notification() {
   return (
-    <div>Notification</div>
+    <Dialog open>
+      Notification
+    </Dialog>
   )
 }
 

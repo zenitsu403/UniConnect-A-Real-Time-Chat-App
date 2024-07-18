@@ -1,8 +1,11 @@
 import React from 'react'
+import { Dialog } from "@mui/material"
 
 function Search() {
   return (
-    <div>Search</div>
+    <Dialog open>
+      Search
+    </Dialog>
   )
 }
 

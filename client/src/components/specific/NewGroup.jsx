@@ -1,8 +1,11 @@
+import { Dialog } from '@mui/material'
 import React from 'react'
 
 function newGroup() {
   return (
-    <div>newGroup</div>
+    <Dialog open>
+      newGroup
+    </Dialog>
   )
 }
 
