@@ -1,4 +1,4 @@
-import { AppBar, Backdrop, Box, IconButton, Toolbar, Tooltip, Typography } from '@mui/material'
+import { AppBar, Backdrop, Box, IconButton, Stack, Toolbar, Tooltip, Typography } from '@mui/material'
 import {lazy, Suspense, useState} from 'react'
 import { headerColor } from '../../constants/color'
 import {Menu as MenuIcon, Search as SearchIcon, Add as AddIcon, Group as GroupIcon, Logout as LogoutIcon, Notifications as NotificationsIcon} from "@mui/icons-material"
@@ -54,15 +54,47 @@ const Header = () => {
         <Box height={"4rem"} sx={{flexGrow:1}}>
             <AppBar position='static' sx={{bgcolor: headerColor}}>
                 <Toolbar>
-                    <Typography
-                        variant='h5'
-                        color={"cyan"}
-                        sx={{
-                            display: {xs: "none", sm: "block"},
-                        }}
-                    >
-                        Uni-Connect - A Real Time Chat App
-                    </Typography>
+                    <Stack alignItems={"center"}>
+                        <Typography
+                            variant='h5'
+                            color={"cyan"}
+                            sx={{
+                                display: {xs: "none", sm: "block"},
+                            }}
+                        >
+                            Uni-Connect - A Real Time Chat App
+                        </Typography>
+                        <Stack direction={"row"} gap={"0.3rem"}>
+                            <Typography
+                                variant='caption'
+                                color={"white"}
+                                sx={{
+                                    display: {xs: "none", sm: "block"},
+                                }}
+                            >
+                                Made with
+                            </Typography>
+                            <Typography
+                                variant='caption'
+                                color={"red"}
+                                sx={{
+                                    display: {xs: "none", sm: "block"},
+                                }}
+                            >
+                                &#10084;
+                            </Typography>
+                            <Typography
+                                variant='caption'
+                                color={"white"}
+                                sx={{
+                                    display: {xs: "none", sm: "block"},
+                                }}
+                            >
+                               by Mukund Acharya
+                            </Typography>
+                        </Stack>
+
+                    </Stack>
                     <Box
                         sx={{
                             display: {xs: "block", sm: "none"},
@@ -72,7 +104,9 @@ const Header = () => {
                             <MenuIcon></MenuIcon>
                         </IconButton>
                     </Box>
+
                     <Box sx={{flexGrow:1}}/>
+                    
                     <Box>
                         <IconBtn 
                             title={"Search"}
