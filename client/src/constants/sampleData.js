@@ -58,3 +58,44 @@ export const sampleNotifications = [
         _id: "2",
     },
 ]
+
+export const sampleMessage = [
+    {
+        attachments: [],
+        content: "Hi bhai kaisa hai? ban gya project??",
+        _id: "id2",
+        sender: {
+          _id: "id2",
+          name: "Raman 2",
+        },
+        chat: "chatId",
+        createdAt: "2024-02-12T10:41:30.630Z",
+    },
+    {
+        attachments: [
+            {
+                public_id: "asdsad 2",
+                url: "https://www.w3schools.com/howto/img_avatar.png",
+            },
+        ],
+        content: "",
+        _id: "id1",
+        sender: {
+          _id: "id1",
+          name: "Raman",
+        },
+        chat: "chatId",
+        createdAt: "2024-02-12T10:41:30.630Z",
+    },
+    {
+        attachments: [],
+        content: "badiya bhai ban jaega 1 2 hafto main",
+        _id: "id3",
+        sender: {
+          _id: "id1",
+          name: "Raman",
+        },
+        chat: "chatId",
+        createdAt: "2024-02-12T10:41:30.630Z",
+    },
+]

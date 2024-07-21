@@ -26,8 +26,8 @@ const ChatItem = ({
                 gap: "1rem",
                 alignItems: "center",
                 padding: "1rem",
-                backgroundColor: sameSender ? "black" : "unset",
-                color: sameSender ? "white" : "unset",
+                backgroundColor: sameSender ? "skyblue" : "unset",
+                color: sameSender ? "black" : "gray",
                 position: "relative",
         }}>
             <AvatarCard avatar={avatar}/>
