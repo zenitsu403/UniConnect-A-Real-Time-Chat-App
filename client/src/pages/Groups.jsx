@@ -1,6 +1,6 @@
-import React, { memo, useState } from 'react'
-import { Box, Drawer, Grid, IconButton, Stack, Tooltip, Typography } from "@mui/material"
-import { KeyboardBackspace as KeyboardBackspaceIcon, Menu as MenuIcon } from "@mui/icons-material"
+import React, { memo, useEffect, useState } from 'react'
+import { Box, Button, Drawer, Grid, IconButton, Stack, TextField, Tooltip, Typography } from "@mui/material"
+import { Done as DoneIcon, Edit as EditButton, KeyboardBackspace as KeyboardBackspaceIcon, Menu as MenuIcon } from "@mui/icons-material"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import { Link } from "../components/styles/StyledComponents"
 import AvatarCard from "../components/shared/AvatarCard"
@@ -13,6 +13,9 @@ const chatId = useSearchParams()[0].get("group")
 const navigate = useNavigate();
 
 const [isMobileMenuOpen,setIsMobileMenuOpen] = useState(false);
+const [isEdit,setIsEdit] = useState(false);
+const [groupName,setGroupName] = useState("")
+const [groupNameUpdatedValue,setGroupNameUpdatedValue] = useState("")
 
 const navigateBack = () => {
   navigate("/");
@@ -23,6 +26,56 @@ const handleMobile = () => {
 }
 
 const handleMobileClose = () => setIsMobileMenuOpen(false);
+
+const updateGroupName = () => {
+  setIsEdit(false);
+}
+
+useEffect(() => {
+  setGroupName(`Group Name ${chatId}`)
+  setGroupNameUpdatedValue(`Group Name ${chatId}`)
+
+  return () => {
+    // cleanup function exectued first then effect functions above
+    // more similar like unmounting component
+    // clean UI before re rendering
+    setGroupName("");
+    setGroupNameUpdatedValue("")
+    setIsEdit(false)
+  }
+}, [chatId])
+
+
+const GroupName = (
+  <Stack
+    direction={"row"}
+    alignItems={"center"}
+    justifyContent={"center"}
+    spacing={"1rem"}
+    padding={"3rem"}
+  >
+    {
+      isEdit
+        ? 
+        <>
+          <TextField 
+            value={groupNameUpdatedValue}
+            onChange={(e) => setGroupNameUpdatedValue(e.target.value)}
+          />
+          <IconButton onClick={updateGroupName}>
+            <DoneIcon/>
+          </IconButton>
+        </>
+        : 
+        <>
+          <Typography variant='h4'>{groupName}</Typography>
+          <IconButton onClick={() => setIsEdit(true)}>
+            <EditButton/>
+          </IconButton>
+        </>
+    }
+  </Stack>
+)
 
 const IconBtns = <>
 
@@ -73,6 +126,24 @@ const IconBtns = <>
   </Tooltip>
 </>
 
+const ButtonGroup = (
+  <Stack
+    direction={{
+      xs: "column-reverse",
+      sm: "row"
+    }}
+    spacing={"1rem"}
+    p={{
+      xs: "0",
+      sm: "1rem",
+      md: "1rem 4rem",
+    }}
+  >
+    <Button>Delete Group</Button>
+    <Button>Add Member</Button>
+  </Stack>
+)
+
   return (
     <Grid container height={"100vh"}>
       <Grid
@@ -98,9 +169,38 @@ const IconBtns = <>
       }}>
 
         {IconBtns}
-        {
-          
-        }
+        
+        {groupName && (
+          <>
+            {GroupName}
+            <Typography
+              margin={"2rem"}
+              alignSelf={"flex-start"}
+              variant='body1'
+            >
+              Members
+            </Typography>
+            <Stack
+              maxWidth={"45rem"}
+              width={"100%"}
+              boxSizing={"border-box"}
+              padding={{
+                xs:"0",
+                sm: "1rem",
+                md: "1rem 4rem"
+              }}
+              spacing={"2rem"}
+              bgcolor={"lightblue"}
+              height={"50vh"}
+              overflow={"auto"}
+            >
+
+            </Stack>
+
+            {ButtonGroup}
+
+          </>
+        )}
 
       </Grid>
 
@@ -135,7 +235,7 @@ const GroupListItem = memo(({group,chatId}) => {
   const {name,avatar,_id} = group;
    return (
     <Link 
-      to={`?groups=${_id}`}
+      to={`?group=${_id}`}
       onClick={e => {
         if(chatId === _id) e.preventDefault(); /* to prevent re render on clicking  */
       }}
