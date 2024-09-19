@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Header from './Header';
 import Title from '../shared/Title';
 import { Drawer, Grid, Skeleton } from '@mui/material';
@@ -9,7 +9,7 @@ import Profile from '../specific/Profile';
 import { useMyChatsQuery } from '../../redux/api/api.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsMobile } from "../../redux/reducers/misc.js"
-import toast from 'react-hot-toast';
+import { useErrors } from '../../hooks/hook.jsx';
 
 const AppLayout = () => (WrappedComponent) => {
   return (props) =>  {
@@ -21,11 +21,8 @@ const AppLayout = () => (WrappedComponent) => {
     const { isMobile } = useSelector((state) => state.misc);
 
     const { isLoading,data,isError,error,refetch } = useMyChatsQuery("");
-
-    useEffect(() => {
-        if(isError) toast.error(error?.data?.message || "Something went wrong!!");
-    }, [isError,error])
     
+    useErrors([{isError,error}]);
 
     const handleDeleteChat = (e,_id,groupChat) => {
         e.preventDefault();
