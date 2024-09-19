@@ -10,7 +10,6 @@ import {v4 as uuid} from "uuid"
 import { getSockets } from "./lib/helper.js"
 import { Message } from "./models/messageModel.js";
 import cors from "cors";
-import { v2 as cloudinary } from "cloudinary";
 import { createUser } from "./seeders/userSeed.js";
 
 
@@ -30,11 +29,6 @@ const adminSecretKey = process.env.ADMIN_SECRET_KEY || "mukund";
 const userSocketIDs = new Map();
 
 connectDB(mongoURI);
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
-});
 
 //Seeds for populating database
 //createUser(10);

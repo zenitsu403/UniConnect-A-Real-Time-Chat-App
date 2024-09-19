@@ -2,24 +2,23 @@ import { compare } from "bcrypt";
 import { User } from "../models/userModel.js"
 import { Chat } from "../models/chatModel.js";
 import { Request } from "../models/requestModel.js";
-import { sendToken,cookieOptions, uploadFilesToCloudinary } from "../utils/features.js";
+import { sendToken,cookieOptions } from "../utils/features.js";
 import { TryCatch } from "../middlewares/error.js";
 import { ErrorHandler } from "../utils/utility.js";
 import { NEW_REQUEST, REFETCH_CHATS } from "../constants/events.js";
 import { emitEvent } from "../utils/features.js";
 import { getOtherMember } from "../lib/helper.js";
 
-const newUser = TryCatch(async (req,res,next) => {
+const newUser = TryCatch(async (req,res) => {
     const { name,username,password,bio } = req.body;
-    
+
     const file = req.file;
 
     if(!file) return next(new ErrorHandler("Please Upload Avatar",400));
 
-    const result = await uploadFilesToCloudinary([file]);
     const avatar = {
-        public_id: result[0].public_id,
-        url: result[0].url,
+        public_id: "asdfg",
+        url: "asdfg"
     };
 
     const user = await User.create({
