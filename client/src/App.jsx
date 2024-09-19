@@ -3,9 +3,9 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 import ProtectRoute from './components/auth/ProtectRoute';
 import { LayoutLoader } from './components/layout/Loaders';
 import axios from "axios";
-import {server} from "./constants/config";
+import {server} from "./constants/config.js";
 import { useDispatch, useSelector } from "react-redux"
-import { userExists, userNotExists } from './redux/reducers/auth';
+import { userExists, userNotExists } from './redux/reducers/auth.js';
 import { Toaster } from "react-hot-toast"
 
 const Home = lazy(() => import("./pages/Home"));
@@ -29,7 +29,7 @@ const App = () => {
     axios
       .get(`${server}/api/v1/user/me`,{ withCredentials: true })
       .then(({data}) => dispatch(userExists(data.user)))
-      .catch(err => dispatch(userNotExists()));
+      .catch((err) => dispatch(userNotExists()));
   }, [dispatch])
   
 
@@ -63,7 +63,7 @@ const App = () => {
           
         </Routes>
       </Suspense>
-      <Toaster position="bottom-center"/>
+      <Toaster position="bottom-center" />
     </BrowserRouter>
   )
 }
