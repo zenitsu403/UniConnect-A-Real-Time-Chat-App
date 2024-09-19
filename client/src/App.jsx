@@ -5,12 +5,8 @@ import { LayoutLoader } from './components/layout/Loaders';
 import axios from "axios";
 import {server} from "./constants/config";
 import { useDispatch, useSelector } from "react-redux"
-<<<<<<< HEAD
 import { userExists, userNotExists } from './redux/reducers/auth';
 import { Toaster } from "react-hot-toast"
-=======
-import { userNotExists } from './redux/reducers/auth';
->>>>>>> parent of f1632c2 (login/signup working now)
 
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login"));
@@ -67,6 +63,7 @@ const App = () => {
           
         </Routes>
       </Suspense>
+      <Toaster position="bottom-center"/>
     </BrowserRouter>
   )
 }
