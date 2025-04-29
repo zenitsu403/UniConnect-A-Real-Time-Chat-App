@@ -1,34 +1,69 @@
 import express from "express";
+import {
+  addMembers,
+  deleteChat,
+  getChatDetails,
+  getMessages,
+  getMyChats,
+  getMyGroups,
+  leaveGroup,
+  newGroupChat,
+  removeMember,
+  renameGroup,
+  sendAttachments,
+} from "../controllers/chat.js";
+import {
+  addMemberValidator,
+  chatIdValidator,
+  newGroupValidator,
+  removeMemberValidator,
+  renameValidator,
+  sendAttachmentsValidator,
+  validateHandler,
+} from "../lib/validators.js";
 import { isAuthenticated } from "../middlewares/auth.js";
-import { addMembers, deleteChat, getChatDetails, getMessages, getMyChat, getMyGroups, leaveGroup, newGroupChat, removeMember, renameGroup, sendAttachments } from "../controllers/chatController.js";
 import { attachmentsMulter } from "../middlewares/multer.js";
-import { addMemberValidator, chatIDValidator, newGroupChatValidator, removeMemberValidator, renameGroupValidator, sendAttachmentsValidator, validationResultHandler } from "../lib/validators.js";
 
 const app = express.Router();
 
-//only Authenticated users can now access this routes below
+// After here user must be logged in to access the routes
+
 app.use(isAuthenticated);
 
-app.post("/new",newGroupChatValidator(),validationResultHandler,newGroupChat);
+app.post("/new", newGroupValidator(), validateHandler, newGroupChat);
 
-app.get("/my",getMyChat);
+app.get("/my", getMyChats);
 
-app.get("/my/groups",getMyGroups);
+app.get("/my/groups", getMyGroups);
 
-app.put("/addmembers",addMemberValidator(),validationResultHandler,addMembers);
+app.put("/addmembers", addMemberValidator(), validateHandler, addMembers);
 
-app.put("/removemember",removeMemberValidator(),validationResultHandler,removeMember);
+app.put(
+  "/removemember",
+  removeMemberValidator(),
+  validateHandler,
+  removeMember
+);
 
-app.delete("/leave/:id",chatIDValidator(),validationResultHandler,leaveGroup);
+app.delete("/leave/:id", chatIdValidator(), validateHandler, leaveGroup);
 
-app.post("/message",attachmentsMulter,sendAttachmentsValidator(),validationResultHandler,sendAttachments);
+// Send Attachments
+app.post(
+  "/message",
+  attachmentsMulter,
+  sendAttachmentsValidator(),
+  validateHandler,
+  sendAttachments
+);
 
-app.get("/message/:id",chatIDValidator(),validationResultHandler,getMessages);
+// Get Messages
+app.get("/message/:id", chatIdValidator(), validateHandler, getMessages);
 
-//route chaining for similar routes having diff functionalties
-app.route("/:id")
-    .get(chatIDValidator(),validationResultHandler,getChatDetails)
-    .put(renameGroupValidator(),validationResultHandler,renameGroup)
-    .delete(chatIDValidator(),validationResultHandler,deleteChat); 
+// Get Chat Details, rename,delete
+app
+  .route("/:id")
+  .get(chatIdValidator(), validateHandler, getChatDetails)
+  .put(renameValidator(), validateHandler, renameGroup)
+  .delete(chatIdValidator(), validateHandler, deleteChat);
 
 export default app;
